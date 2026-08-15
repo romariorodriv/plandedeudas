@@ -1,0 +1,17 @@
+import type { Metadata } from "next";
+import { cookies } from "next/headers";
+import { AdminLogin } from "@/components/admin/AdminLogin";
+import { AdminLogout } from "@/components/admin/AdminLogout";
+import { getAllArticles } from "@/lib/content";
+import { getPrisma } from "@/lib/prisma";
+import { isValidAdminCookie } from "@/lib/security";
+export const dynamic = "force-dynamic";
+export const metadata: Metadata = { robots: { index: false, follow: false } };
+export default async function AdminPage() {
+  const store = await cookies(); if (!isValidAdminCookie(store.get("mvp_admin")?.value)) return <AdminLogin />;
+  const articles = getAllArticles(); let feedback: Array<{ id: string; message: string; category: string | null; pageUrl: string | null; createdAt: Date }> = []; let leads: Array<{ id: string; contact: string; contactType: string; utmSource: string | null; utmMedium: string | null; utmCampaign: string | null }> = []; let ratings: Array<{ helpful: boolean }> = [];
+  try { const prisma = getPrisma(); [feedback, leads, ratings] = await Promise.all([prisma.feedback.findMany({ orderBy: { createdAt: "desc" }, take: 50 }), prisma.waitlistLead.findMany({ orderBy: { createdAt: "desc" }, take: 50 }), prisma.articleRating.findMany({ orderBy: { createdAt: "desc" }, take: 100 })]); } catch {}
+  const helpful = ratings.filter((r) => r.helpful).length; const helpfulPct = ratings.length ? Math.round((helpful / ratings.length) * 100) : 0;
+  return <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6"><div className="flex items-center justify-between"><div><p className="text-sm font-semibold text-[var(--brand)]">ADMIN MVP</p><h1 className="text-3xl font-semibold">Aprendizaje del producto</h1></div><AdminLogout /></div><div className="mt-8 grid gap-3 sm:grid-cols-4">{[["Artículos", articles.length],["Feedback", feedback.length],["Waitlist", leads.length],["Útil", `${helpfulPct}%`]].map(([k,v]) => <div key={String(k)} className="rounded-2xl border border-slate-200 p-4"><p className="text-sm text-slate-500">{k}</p><p className="mt-1 text-2xl font-semibold">{v}</p></div>)}</div>
+  <div className="mt-10 grid gap-8 lg:grid-cols-2"><section><h2 className="text-xl font-semibold">Feedback reciente</h2><div className="mt-4 grid gap-3">{feedback.length ? feedback.map((item) => <div key={item.id} className="rounded-2xl border border-slate-200 p-4"><div className="flex justify-between gap-3 text-xs text-slate-500"><span>{item.category || "Sin categoría"}</span><time>{item.createdAt.toLocaleString("es-PE")}</time></div><p className="mt-2 text-sm leading-6">{item.message}</p><p className="mt-2 truncate text-xs text-slate-400">{item.pageUrl}</p></div>) : <p className="text-sm text-slate-500">Aún no hay feedback o la base no está disponible.</p>}</div></section><section><h2 className="text-xl font-semibold">Lista de espera</h2><div className="mt-4 grid gap-3">{leads.length ? leads.map((lead) => <div key={lead.id} className="rounded-2xl border border-slate-200 p-4"><div className="flex justify-between gap-3"><strong className="text-sm">{lead.contact}</strong><span className="text-xs text-slate-500">{lead.contactType}</span></div><p className="mt-2 text-xs text-slate-500">{[lead.utmSource, lead.utmMedium, lead.utmCampaign].filter(Boolean).join(" / ") || "Sin UTM"}</p></div>) : <p className="text-sm text-slate-500">Aún no hay registros o la base no está disponible.</p>}</div></section></div></div>;
+}

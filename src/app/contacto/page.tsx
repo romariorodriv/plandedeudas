@@ -1,0 +1,4 @@
+import type { Metadata } from "next";
+import { brand } from "@/config/brand";
+export const metadata: Metadata = { title: "Contacto", alternates: { canonical: "/contacto" } };
+export default function Contact() { return <div className="mx-auto max-w-3xl px-4 py-14 sm:px-6"><h1 className="text-4xl font-semibold tracking-tight">Contacto</h1><p className="mt-5 text-lg leading-8 text-slate-600">Si tienes una consulta sobre el proyecto, contenido o privacidad, escríbenos a <a className="font-semibold text-[var(--brand)] underline" href={`mailto:${brand.contactEmail}`}>{brand.contactEmail}</a>.</p><div className="mt-8 rounded-3xl bg-slate-50 p-5 text-sm leading-6 text-slate-600"><strong className="text-slate-900">Importante:</strong> no envíes contraseñas, PIN, CVV, números completos de tarjeta, claves bancarias ni documentación financiera sensible por correo.</div></div>; }

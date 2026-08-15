@@ -1,0 +1,2 @@
+import Link from "next/link";
+export default function NotFound() { return <div className="mx-auto max-w-2xl px-4 py-24 text-center"><p className="text-sm font-semibold text-[var(--brand)]">404</p><h1 className="mt-2 text-4xl font-semibold">No encontramos esta página.</h1><p className="mt-4 text-slate-600">Puede que el contenido haya cambiado de dirección o todavía no exista.</p><Link href="/aprender" className="mt-7 inline-flex rounded-full bg-slate-950 px-5 py-3 font-medium text-white">Ir a la biblioteca</Link></div>; }

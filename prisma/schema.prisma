@@ -1,0 +1,45 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Feedback {
+  id        String   @id @default(uuid())
+  message   String
+  category  String?
+  pageUrl   String?
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+}
+
+model WaitlistLead {
+  id          String   @id @default(uuid())
+  contact     String
+  contactType String
+  consent     Boolean
+  pageUrl     String?
+  utmSource   String?
+  utmMedium   String?
+  utmCampaign String?
+  referrer    String?
+  createdAt   DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([contactType])
+}
+
+model ArticleRating {
+  id        String   @id @default(uuid())
+  articleSlug String
+  helpful   Boolean
+  comment   String?
+  createdAt DateTime @default(now())
+
+  @@index([articleSlug])
+  @@index([createdAt])
+}

@@ -1,0 +1,5 @@
+import type { Metadata } from "next";
+import { ArticleCard } from "@/components/ui/ArticleCard";
+import { getArticlesByCategory } from "@/lib/content";
+export const metadata: Metadata = { title: "Crédito", description: "Entiende tarjetas, préstamos, TCEA, cuotas e historial crediticio con ejemplos simples.", alternates: { canonical: "/credito" } };
+export default function CreditHub() { const articles = getArticlesByCategory("Crédito"); return <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6"><div className="max-w-3xl"><span className="rounded-full bg-[var(--brand-soft)] px-3 py-1.5 text-sm font-medium text-[var(--brand-dark)]">Hub de crédito</span><h1 className="mt-5 text-4xl font-semibold tracking-tight sm:text-5xl">Crédito explicado para poder comparar, no para memorizar términos.</h1><p className="mt-5 text-lg leading-8 text-slate-600">TCEA, cuotas, intereses, tarjetas e historial crediticio traducidos a preguntas que sí ayudan a decidir.</p></div><section className="mt-12 grid gap-4 md:grid-cols-2">{articles.map((article) => <ArticleCard key={article.slug} article={article} />)}</section></div>; }
