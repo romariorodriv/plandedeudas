@@ -24,7 +24,10 @@ export function FeedbackWidget() {
 
   return (
     <div className="fixed bottom-4 right-4 z-50">
-      <button type="button" onClick={() => { setOpen(true); trackEvent("feedback_opened"); }} className="rounded-full bg-slate-950 px-4 py-3 text-sm font-medium text-white shadow-lg">¿Qué te gustaría que construyamos?</button>
+      <button type="button" aria-label="Enviar feedback" onClick={() => { setOpen(true); trackEvent("feedback_opened"); }} className="grid h-12 w-12 place-items-center rounded-full bg-slate-950 text-sm font-medium text-white shadow-lg sm:h-auto sm:w-auto sm:px-4 sm:py-3">
+        <span aria-hidden="true" className="sm:hidden">?</span>
+        <span className="hidden sm:inline">¿Qué te gustaría que construyamos?</span>
+      </button>
       {open && <div className="fixed inset-0 z-50 flex items-end bg-slate-950/30 p-3 sm:items-center sm:justify-center" role="dialog" aria-modal="true" aria-labelledby="feedback-title">
         <div className="w-full max-w-lg rounded-[2rem] bg-white p-5 shadow-2xl sm:p-7">
           <div className="flex items-start justify-between gap-4"><div><h2 id="feedback-title" className="text-xl font-semibold">¿Qué problema con tu dinero te gustaría resolver?</h2><p className="mt-2 text-sm leading-6 text-slate-600">No escribas contraseñas, PIN, CVV, números completos de tarjeta ni información confidencial.</p></div><button type="button" onClick={() => setOpen(false)} className="min-h-11 rounded-xl border px-3 text-sm">Cerrar</button></div>

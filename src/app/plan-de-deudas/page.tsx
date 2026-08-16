@@ -1,4 +1,5 @@
-import type { Metadata } from "next";
-import { WaitlistForm } from "@/components/forms/WaitlistForm";
-export const metadata: Metadata = { title: "Plan de deudas — Próximamente", description: "Únete a la lista de espera del futuro plan personalizado para organizar deudas.", alternates: { canonical: "/plan-de-deudas" } };
-export default function DebtPlanPage() { return <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-[1.1fr_.9fr] lg:items-start"><div className="pt-4"><span className="rounded-full bg-[var(--brand-soft)] px-3 py-1.5 text-sm font-medium text-[var(--brand-dark)]">En construcción</span><h1 className="mt-5 text-4xl font-semibold tracking-tight sm:text-5xl">Estamos construyendo una forma más sencilla de organizar tus deudas.</h1><p className="mt-5 max-w-2xl text-lg leading-8 text-slate-600">La idea es que puedas registrar tus deudas, entender tu situación, comparar estrategias y recibir un plan orientativo. Todavía no está disponible y no estamos pidiendo información financiera.</p><ul className="mt-7 grid gap-3 text-sm text-slate-700"><li>✓ Registrar y ordenar deudas</li><li>✓ Comparar estrategias de pago</li><li>✓ Ver un plan personalizado y sus supuestos</li><li>✓ Estimar escenarios cuando existan datos suficientes</li></ul><p className="mt-8 text-sm leading-6 text-slate-500">No prometemos una fecha exacta de salida ni resultados garantizados. Las futuras simulaciones serán orientativas.</p></div><WaitlistForm /></div>; }
+import { redirect } from "next/navigation";
+
+export default function DebtPlanPage() {
+  redirect("/#crear-plan");
+}
